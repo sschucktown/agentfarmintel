@@ -20,6 +20,27 @@ export interface Listing {
   brokerName?: string;
   latitude?: number | null;
   longitude?: number | null;
+  analysisReason?: string;
+}
+
+export interface FarmConfig {
+  productName: string;
+  reportName: string;
+  agentAudience: string;
+  farmArea: {
+    label: string;
+    city: string;
+    state: string;
+    zipCodes: string[];
+  };
+  propertyFilters: {
+    includePropertyTypes: string[];
+    excludePropertyTypes: string[];
+    minPrice: number;
+    maxPrice: number;
+  };
+  competitorSearchLabel: string;
+  reportCadence: string;
 }
 
 export type CompetitorType = "core" | "adjacent";
@@ -87,15 +108,21 @@ export interface RecommendedAction {
 }
 
 export interface ListingAnalysis {
+  totalRawListingsLoaded: number;
   totalListings: number;
+  listingsInFarmZipCount: number;
   residentialListingCount: number;
   landListingCount: number;
+  outliersExcludedCount: number;
   listingsByZip: Record<string, number>;
   medianResidentialPrice: number | null;
   medianPricePerSqft: number | null;
   medianDaysOnMarket: number | null;
+  freshListingCount: number;
+  staleListingCount: number;
   freshListings: Listing[];
   staleListings: Listing[];
+  pricingConversationStarters: Listing[];
   listingsWorthWatching: Listing[];
   excludedOutliers: Listing[];
 }
@@ -120,6 +147,7 @@ export interface ReviewPlaceSummary {
   negativeThemes: string[];
   topicCounts: Record<ReviewTopic, number>;
   rentalOrPropertyManagementHeavy: boolean;
+  interpretation: "buyer/seller" | "rental/property management" | "vacation rental" | "mixed/unclear";
 }
 
 export interface ReviewAnalysis {
@@ -141,6 +169,7 @@ export interface AdAnalysis {
 }
 
 export interface AgentFarmIntelReport {
+  config: FarmConfig;
   generatedAt: string;
   listings: ListingAnalysis;
   competitors: CompetitorAnalysis;

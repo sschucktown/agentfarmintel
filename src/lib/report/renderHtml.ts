@@ -33,7 +33,7 @@ export function renderHtml(report: AgentFarmIntelReport): string {
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Agent Farm Intel Report</title>
+  <title>${escapeHtml(report.config.reportName)}</title>
   <style>
     body { margin: 0; font-family: Arial, sans-serif; color: #172033; background: #f6f7f9; line-height: 1.55; }
     main { max-width: 1080px; margin: 0 auto; padding: 48px 20px; }
@@ -48,9 +48,9 @@ export function renderHtml(report: AgentFarmIntelReport): string {
 </head>
 <body>
   <main>
-    <h1>Agent Farm Intel Report</h1>
-    <p class="intro">Agent Farm Intel monitors your farm area and turns listings, competitor visibility, reviews, and ads into weekly actions.</p>
-    <p class="intro">Generated: ${escapeHtml(report.generatedAt)}</p>
+    <h1>${escapeHtml(report.config.reportName)}</h1>
+    <p class="intro">${escapeHtml(report.config.productName)} monitors ${escapeHtml(report.config.farmArea.label)} and turns listings, competitor visibility, reviews, and ads into weekly actions.</p>
+    <p class="intro">Farm area: ${escapeHtml(report.config.farmArea.label)} | Generated: ${escapeHtml(report.generatedAt)} | Source: uploaded Apify JSON exports</p>
     ${sections}
   </main>
 </body>

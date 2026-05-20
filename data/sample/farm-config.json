@@ -1,0 +1,19 @@
+{
+  "productName": "Agent Farm Intel",
+  "reportName": "James Island Farm Area Brief",
+  "agentAudience": "real estate agents farming James Island and nearby Charleston neighborhoods",
+  "farmArea": {
+    "label": "James Island / 29412",
+    "city": "Charleston",
+    "state": "SC",
+    "zipCodes": ["29412"]
+  },
+  "propertyFilters": {
+    "includePropertyTypes": ["SINGLE_FAMILY", "CONDO", "TOWNHOUSE", "MULTI_FAMILY"],
+    "excludePropertyTypes": ["LAND"],
+    "minPrice": 100000,
+    "maxPrice": 10000000
+  },
+  "competitorSearchLabel": "James Island / Folly Road competitor set",
+  "reportCadence": "Weekly"
+}

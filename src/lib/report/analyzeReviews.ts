@@ -18,6 +18,19 @@ function classifyTopic(review: Review): ReviewTopic {
   return "irrelevant/other";
 }
 
+function interpretation(topicCounts: Record<ReviewTopic, number>): ReviewPlaceSummary["interpretation"] {
+  const buyerSeller = topicCounts["traditional buyer/seller real estate"];
+  const propertyManagement = topicCounts["property management"];
+  const vacationRental = topicCounts["vacation rentals"];
+  const total = Object.values(topicCounts).reduce((sum, count) => sum + count, 0);
+
+  if (total === 0) return "mixed/unclear";
+  if (vacationRental / total >= 0.5) return "vacation rental";
+  if (propertyManagement / total >= 0.5) return "rental/property management";
+  if (buyerSeller / total >= 0.5) return "buyer/seller";
+  return "mixed/unclear";
+}
+
 export function analyzeReviews(reviews: Review[]): ReviewAnalysis {
   const grouped = groupBy(reviews, (review) => review.placeId ?? review.placeName ?? "Unknown competitor");
   const places: ReviewPlaceSummary[] = Object.values(grouped).map((placeReviews) => {
@@ -49,7 +62,8 @@ export function analyzeReviews(reviews: Review[]): ReviewAnalysis {
       positiveThemes: [...positiveThemes].slice(0, 5),
       negativeThemes: [...negativeThemes].slice(0, 5),
       topicCounts,
-      rentalOrPropertyManagementHeavy: placeReviews.length > 0 && rentalOrPm / placeReviews.length >= 0.5
+      rentalOrPropertyManagementHeavy: placeReviews.length > 0 && rentalOrPm / placeReviews.length >= 0.5,
+      interpretation: interpretation(topicCounts)
     };
   });
 

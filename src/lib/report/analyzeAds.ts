@@ -29,6 +29,6 @@ export function analyzeAds(ads: Ad[]): AdAnalysis {
     campaignThemes,
     spendReachNote: hasSpendOrReach
       ? "Some ads include spend or reach estimates; treat them as directional because scraper coverage can vary."
-      : "Spend and reach were unavailable in this export, so the report does not infer competitor budget level."
+      : "Spend and reach were unavailable in this export, so this section reflects ad presence and messaging themes only."
   };
 }

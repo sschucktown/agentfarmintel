@@ -11,9 +11,11 @@ function renderTable(rows: NonNullable<ReportSection["rows"]>): string {
 
 export function renderMarkdown(report: AgentFarmIntelReport): string {
   const parts = [
-    "# Agent Farm Intel Report",
+    `# ${report.config.reportName}`,
     "",
-    "Agent Farm Intel monitors your farm area and turns listings, competitor visibility, reviews, and ads into weekly actions.",
+    `${report.config.productName} monitors ${report.config.farmArea.label} and turns listings, competitor visibility, reviews, and ads into weekly actions.`,
+    "",
+    `Farm area: ${report.config.farmArea.label}`,
     "",
     `Generated: ${report.generatedAt}`,
     ""

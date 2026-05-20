@@ -5,6 +5,7 @@ import { parseGoogleMapsCompetitors } from "@/lib/parsers/googleMapsCompetitors"
 import { parseGoogleReviews } from "@/lib/parsers/googleReviews";
 import { parseListings } from "@/lib/parsers/listings";
 import { buildReport } from "@/lib/report/buildReport";
+import { loadFarmConfig } from "@/lib/report/farmConfig";
 
 function readJsonArray(filePath: string): unknown[] {
   const parsed = JSON.parse(fs.readFileSync(filePath, "utf8"));
@@ -17,5 +18,5 @@ export function loadSampleReport() {
     competitors: parseGoogleMapsCompetitors(readJsonArray(SAMPLE_INPUT_FILES.competitors)),
     reviews: parseGoogleReviews(readJsonArray(SAMPLE_INPUT_FILES.reviews)),
     ads: parseFacebookAds(readJsonArray(SAMPLE_INPUT_FILES.ads))
-  });
+  }, loadFarmConfig());
 }

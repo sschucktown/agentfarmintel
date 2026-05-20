@@ -1,6 +1,7 @@
 import path from "node:path";
 
 export const SAMPLE_INPUT_FILES = {
+  farmConfig: path.join(process.cwd(), "data/sample/farm-config.json"),
   listings: path.join(
     process.cwd(),
     "data/sample/dataset_us-realestate-multisource_2026-05-20_16-55-23-766.json"

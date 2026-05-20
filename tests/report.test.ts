@@ -1,9 +1,20 @@
 import { describe, expect, it } from "vitest";
 import { buildReport } from "@/lib/report/buildReport";
+import { loadFarmConfig } from "@/lib/report/farmConfig";
 import { renderMarkdown } from "@/lib/report/renderMarkdown";
 
 describe("report generation", () => {
+  it("loads the default James Island farm config", () => {
+    const config = loadFarmConfig();
+
+    expect(config.productName).toBe("Agent Farm Intel");
+    expect(config.reportName).toBe("James Island Farm Area Brief");
+    expect(config.farmArea.zipCodes).toEqual(["29412"]);
+    expect(config.propertyFilters.excludePropertyTypes).toContain("LAND");
+  });
+
   it("builds practical sections from normalized sample-shaped data", () => {
+    const farmConfig = loadFarmConfig();
     const report = buildReport({
       listings: [
         {
@@ -11,7 +22,7 @@ describe("report generation", () => {
           address: "4 Mulroy Ct",
           city: "Charleston",
           state: "SC",
-          zip: "29414",
+          zip: "29412",
           price: 675000,
           beds: 3,
           baths: 3,
@@ -27,9 +38,20 @@ describe("report generation", () => {
           address: "Lot 1",
           city: "Charleston",
           state: "SC",
-          zip: "29414",
+          zip: "29412",
           price: 250000,
           propertyType: "LAND",
+          status: "FOR_SALE"
+        },
+        {
+          id: "3",
+          address: "Outside Farm",
+          city: "Charleston",
+          state: "SC",
+          zip: "29414",
+          price: 500000,
+          daysOnMarket: 2,
+          propertyType: "SINGLE_FAMILY",
           status: "FOR_SALE"
         }
       ],
@@ -67,14 +89,19 @@ describe("report generation", () => {
           publisherPlatform: ["FACEBOOK"]
         }
       ]
-    });
+    }, farmConfig);
 
     const markdown = renderMarkdown(report);
 
     expect(report.sections.map((section) => section.title)).toContain("Executive Summary");
+    expect(report.config.reportName).toBe("James Island Farm Area Brief");
+    expect(report.listings.totalRawListingsLoaded).toBe(3);
+    expect(report.listings.listingsInFarmZipCount).toBe(2);
+    expect(report.listings.residentialListingCount).toBe(1);
     expect(report.listings.landListingCount).toBe(1);
     expect(report.ads.activeAds).toBe(1);
     expect(markdown).toContain("Recommended Actions This Week");
-    expect(markdown).toContain("Agent Farm Intel");
+    expect(markdown).toContain("James Island Farm Area Brief");
+    expect(markdown).toContain("Local Competitor Visibility");
   });
 });
